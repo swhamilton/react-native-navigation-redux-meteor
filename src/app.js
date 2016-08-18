@@ -1,5 +1,8 @@
+import {Component} from 'react';
+
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { Provider } from 'react-redux';
+import { connect, Provider } from 'react-redux';
+import Meteor, { createContainer } from 'react-native-meteor';
 import { Navigation } from 'react-native-navigation';
 import thunk from 'redux-thunk';
 import * as reducers from './reducers';
@@ -14,14 +17,24 @@ const store = createStoreWithMiddleware(reducer);
 import { registerScreens } from './screens';
 registerScreens(store, Provider);
 
+// Not sure where to connect since this is not a component, just a class.
+Meteor.connect('http://localhost:3000/websocket');
+
 // notice that this is just a simple class, it's not a React component
 export default class App {
 	constructor() {
+		// super(props) // don't need to init super because it's not a component
 		// since react-redux only works on components, we need to subscribe this class manually
 		store.subscribe(this.onStoreUpdate.bind(this));
 		store.dispatch(appActions.appInitialized());
-		console.log('dispatching appInitialized()');
 	}
+
+	// componentWillMount() {
+	// 	console.log('will mount');
+	// }
+	// componentDidMount() {
+	// 	console.log('did mount');
+	// }
 
 	onStoreUpdate() {
 		console.log('onStoreUpdate');
@@ -107,3 +120,12 @@ export default class App {
 		}
 	}
 }
+// This doesn't return anything
+//
+// export default createContainer(params=>{
+//   return {
+//     users: Meteor.user(),
+//     status: Meteor.status(),
+//     loggingIn: Meteor.loggingIn(),
+//   };
+// }, App);

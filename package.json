@@ -6,13 +6,14 @@
     "start": "react-native start"
   },
   "dependencies": {
+    "fbjs": "^0.6.1",
     "react": "15.2.1",
     "react-native": "^0.30.0",
-    "fbjs": "^0.6.1",
+    "react-native-meteor": "^1.0.0-rc14",
+    "react-native-navigation": "^2.0.0-experimental.67",
     "react-redux": "^4.0.6",
     "redux": "^3.0.5",
     "redux-thunk": "^1.0.3",
-    "seamless-immutable": "^5.0.1",
-    "react-native-navigation": "^2.0.0-experimental.67"
+    "seamless-immutable": "^5.0.1"
   }
 }

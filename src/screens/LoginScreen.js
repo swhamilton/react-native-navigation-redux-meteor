@@ -7,6 +7,7 @@ import {
   StyleSheet
 } from 'react-native';
 import {connect} from 'react-redux';
+import Meteor, { createContainer } from 'react-native-meteor';
 import * as counterActions from '../reducers/counter/actions';
 import * as appActions from '../reducers/app/actions';
 
@@ -28,6 +29,9 @@ class LoginScreen extends Component {
   }
 
   render() {
+    console.log(this.props.user);
+    console.log(this.props.status);
+    console.log(this.props.loggingIn);
     return (
       <View style={{flex: 1, padding: 20}}>
 
@@ -117,4 +121,14 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(LoginScreen);
+const MeteorContainer = createContainer((mapStateToProps) => {
+  return {
+      user: Meteor.user(),
+      status: Meteor.status(),
+      loggingIn: Meteor.loggingIn()
+  }
+}, LoginScreen);
+
+export default connect((mapStateToProps) => (mapStateToProps))(MeteorContainer)
+
+// export default connect(mapStateToProps)(LoginScreen);
