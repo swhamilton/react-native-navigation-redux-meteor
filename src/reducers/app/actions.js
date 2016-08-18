@@ -18,3 +18,10 @@ export function login() {
     dispatch(changeAppRoot('after-login'));
   };
 }
+
+export function logout() {
+  return async function(dispatch, getState) {
+    // login logic would go here, and when it's done, we switch app roots
+    dispatch(changeAppRoot('login'));
+  };
+}
