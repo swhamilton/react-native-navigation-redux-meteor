@@ -118,7 +118,7 @@ class PushedScreen extends Component {
 
   onShowModalPress() {
     this.props.navigator.showModal({
-      title: "Modal Screen",
+      title: "Modal Screen2",
       screen: "example.PushedScreen",
       passProps: {
         passed: 'This is a prop passed in \'navigator.showModal()\'!',

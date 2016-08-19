@@ -121,7 +121,7 @@ class FirstTabScreen extends Component {
 
 		onShowModalPress() {
 			this.props.navigator.showModal({
-				title: "Modal Screen",
+				title: "Modal Screen1",
 				screen: "example.PushedScreen",
 				passProps: {
 					str: 'This is a prop passed in \'navigator.showModal()\'!',

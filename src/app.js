@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import React, { Component } from 'react';
 
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { connect, Provider } from 'react-redux';
@@ -17,11 +17,24 @@ const store = createStoreWithMiddleware(reducer);
 import { registerScreens } from './screens';
 registerScreens(store, Provider);
 
-// Not sure where to connect since this is not a component, just a class.
+// Not sure best place to connect, this works though.
 Meteor.connect('http://localhost:3000/websocket');
 
+
+/**
+ * Goal:  Connect Meteor so that redux store always has
+ *        Meteor.user(), Meteor.status, and Meteor.loggingIn state.
+ 		  I want to hook the switch below into the redux state so it automatically
+ *		  manages loggedIn, loggedOut state
+ *
+ * Problem: I can't figure out how to setup the store to include Meteor.
+ *          The following example is what I'm accomplish in this file.
+ * https://gist.github.com/spencercarli/8a0eea08a218cc16a35938fd3a95fc45#file-meteorconnect-js
+ *
+ */
+
 // notice that this is just a simple class, it's not a React component
-export default class App {
+ export default class App {
 	constructor() {
 		// super(props) // don't need to init super because it's not a component
 		// since react-redux only works on components, we need to subscribe this class manually
@@ -29,6 +42,7 @@ export default class App {
 		store.dispatch(appActions.appInitialized());
 	}
 
+	// These don't work because it's a regular class, not component
 	// componentWillMount() {
 	// 	console.log('will mount');
 	// }
@@ -39,8 +53,9 @@ export default class App {
 	onStoreUpdate() {
 		console.log('onStoreUpdate');
 		const { root } = store.getState().app;
+
 		// handle a root change
-		// if your app doesn't change roots in runtime, you can remove onStoreUpdate() altogether
+		// I want this to update if the Meteor.user() status changes
 		if (this.currentRoot != root) {
 			this.currentRoot = root;
 			this.startApp(root);
@@ -119,8 +134,12 @@ export default class App {
 			console.error('Unknown app root');
 		}
 	}
+
+	render(){
+		return null
+	}
 }
-// This doesn't return anything
+// I don't think I can use createContainer because this file is a regular class.
 //
 // export default createContainer(params=>{
 //   return {
